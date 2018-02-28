@@ -50,6 +50,11 @@ export interface MarkerOptions {
   zIndex?: number;
   clickable: boolean;
   animation?: any;
+
+  labelContent?: any;
+  labelVisible?: boolean;
+  labelAnchor?: any;
+  labelClass?: any;
 }
 
 export interface MarkerLabel {

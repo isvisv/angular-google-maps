@@ -15,8 +15,8 @@
             "es2015",
             "dom"
         ],
-        "types": [
-            "jasmine"
+        "typeRoots": [
+          "node_modules/@types"
         ],
         "paths": {
             "@agm/*": ["./packages/*"]

@@ -6,6 +6,7 @@ import * as mapTypes from './google-maps-types';
 import {Polyline} from './google-maps-types';
 import {PolylineOptions} from './google-maps-types';
 import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
+import * as MarkerWithLabel from 'markerwithlabel';
 
 // todo: add types for this
 declare var google: any;
@@ -18,6 +19,7 @@ declare var google: any;
 export class GoogleMapsAPIWrapper {
   private _map: Promise<mapTypes.GoogleMap>;
   private _mapResolver: (value?: mapTypes.GoogleMap) => void;
+  private markerFactory: any;
 
   constructor(private _loader: MapsAPILoader, private _zone: NgZone) {
     this._map =
@@ -28,6 +30,7 @@ export class GoogleMapsAPIWrapper {
     return this._loader.load().then(() => {
       const map = new google.maps.Map(el, mapOptions);
       this._mapResolver(<mapTypes.GoogleMap>map);
+      this.markerFactory = new MarkerWithLabel(google.maps);
       return;
     });
   }
@@ -45,7 +48,35 @@ export class GoogleMapsAPIWrapper {
       if (addToMap) {
         options.map = map;
       }
-      return new google.maps.Marker(options);
+
+      // return new MarkerWithLabel({
+      //   position: latLng,
+      //   draggable: false,
+      //   visible: true,
+      //   raiseOnDrag: false,
+      //   map: map,
+      //   labelContent: elementRef.nativeElement.innerHTML,
+      //   labelVisible: true,
+      //   labelAnchor: new google.maps.Point(9, 9),
+      //   labelClass: 'gm-offer-marker',
+      //   icon: {
+      //     anchor: new google.maps.Point(0, 0),
+      //     path: google.maps.SymbolPath.CIRCLE,
+      //     scale: 0,
+      //     fillColor: '#000000',
+      //     fillOpacity: 1,
+      //     strokeColor: '#000000',
+      //     strokeWeight: 0
+      //   }
+      // });
+
+      // return new google.maps.Marker(options);
+      options.labelContent = '<span class="time-left-circle">34</span>';
+      options.labelVisible = true;
+      options.labelAnchor = new google.maps.Point(-10, 35);
+      options.labelClass = 'gm-offer-marker';
+
+      return new this.markerFactory(options);
     });
   }
 
