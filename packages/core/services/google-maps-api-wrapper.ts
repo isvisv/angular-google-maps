@@ -49,6 +49,8 @@ export class GoogleMapsAPIWrapper {
         options.map = map;
       }
 
+      console.log('ISV : createMarker called: ' + options.infoLabel);
+
       // return new MarkerWithLabel({
       //   position: latLng,
       //   draggable: false,
@@ -71,10 +73,12 @@ export class GoogleMapsAPIWrapper {
       // });
 
       // return new google.maps.Marker(options);
-      options.labelContent = '<span class="time-left-circle">34</span>';
-      options.labelVisible = true;
-      options.labelAnchor = new google.maps.Point(-10, 35);
-      options.labelClass = 'gm-offer-marker';
+      if (options.infoLabel && options.infoLabel.length > 0) {
+        options.labelContent = '<span class="time-left-circle">' + options.infoLabel + '</span>';
+        options.labelVisible = true;
+        options.labelAnchor = new google.maps.Point(-10, 35);
+        options.labelClass = 'gm-offer-marker';
+      }
 
       return new this.markerFactory(options);
     });

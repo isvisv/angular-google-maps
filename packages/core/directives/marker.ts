@@ -39,7 +39,7 @@ let markerId = 0;
   selector: 'agm-marker',
   inputs: [
     'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
-    'openInfoWindow', 'opacity', 'visible', 'zIndex', 'animation'
+    'openInfoWindow', 'opacity', 'visible', 'zIndex', 'animation', 'infoLabel'
   ],
   outputs: ['markerClick', 'dragEnd', 'mouseOver', 'mouseOut']
 })
@@ -109,6 +109,11 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
    * This can be 'BOUNCE' or 'DROP'
    */
   animation: 'BOUNCE' | 'DROP' | null;
+
+  /**
+   * The additional info label to be shown on right upper cornet the marker.
+   */
+  @Input() infoLabel: string;
 
   /**
    * This event emitter gets emitted when the user clicks on the marker.
@@ -197,6 +202,9 @@ export class AgmMarker implements OnDestroy, OnChanges, AfterContentInit {
     if (changes['animation']) {
       this._markerManager.updateAnimation(this);
     }
+    // if (changes['infoLabel']) {
+    //   // this._markerManager.updateInfoLabel(this);
+    // }
   }
 
   private _addEventListeners() {

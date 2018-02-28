@@ -77,6 +77,12 @@ export class MarkerManager {
     });
   }
 
+  updateInfoLabel(marker: AgmMarker): Promise<void> {
+    return this._markers.get(marker).then((m: any) => {
+      m.infoLabel = marker.infoLabel;
+    });
+  }
+
   addMarker(marker: AgmMarker) {
     const markerPromise = this._mapsWrapper.createMarker({
       position: {lat: marker.latitude, lng: marker.longitude},
@@ -88,7 +94,8 @@ export class MarkerManager {
       zIndex: marker.zIndex,
       title: marker.title,
       clickable: marker.clickable,
-      animation: (typeof marker.animation === 'string') ? google.maps.Animation[marker.animation] : marker.animation
+      animation: (typeof marker.animation === 'string') ? google.maps.Animation[marker.animation] : marker.animation,
+      infoLabel: marker.infoLabel
     });
 
     this._markers.set(marker, markerPromise);
